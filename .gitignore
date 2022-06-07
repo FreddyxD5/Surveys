@@ -1,0 +1,15 @@
+#Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+#Django things
+
+#Environments
+.env
+.venv
+env/
+
+*.log
+db.sqlite3
