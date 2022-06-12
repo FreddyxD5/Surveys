@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.models import User
 from django.db import models
+from core.survey.managers import ActiveManager, QuestionManager
 
 
 # Create your models here.
@@ -28,6 +29,9 @@ class Question(models.Model):
     pub_date = models.DateTimeField()
     is_active= models.BooleanField(default=True)
 
+    objects = QuestionManager()
+    active_objects = ActiveManager()    
+
 
     def __str__(self):
         return f"{self.slug}: {self.question_text}"
@@ -38,6 +42,8 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=300)
     votes = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)    
+
+    active_objects = ActiveManager()
 
     def __str__(self):
         return f"{self.question.slug}: {self.choice_text}"
