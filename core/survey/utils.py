@@ -1,6 +1,9 @@
+
 import datetime
 import redis
 from django.conf import settings
+
+from core.survey.models import Question
 
 
 SURVEY_DAYS = 15

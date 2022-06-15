@@ -78,11 +78,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 ROOT_URLCONF = 'surveys.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,14 +143,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+print('Q MRD?')
+print(os.path.join(BASE_DIR,'static'))
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT= 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
+#REDIS SETTINGS
+REDIS_HOST=env('REDIS_HOST')
+REDIS_PORT = env.int('REDIS_PORT')
+REDIS_DB=env.int('REDIS_DB')
 
 #CELERY SETTINGS
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
@@ -162,7 +170,7 @@ CELERY_TAS_TRACK_STARDED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis:s//localhost:6379/'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER= 'json'
 CELERY_TASK_SERIALIZER = 'json'

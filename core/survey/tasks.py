@@ -1,10 +1,12 @@
 import logging  
+from celery.utils.log import get_task_logger
 from celery import shared_task
 from django.db.models import F 
 from django.conf import settings
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
+logger = get_task_logger(__name__)
 
 @shared_task
 def increment_vote(choice_id):
@@ -24,4 +26,5 @@ def increment_counter(choice_id):
 
 @shared_task
 def add_test_task(x,y):
+    logger.info(f"Resultado de la suma {x}+{y}={x+y}")
     return x+y
