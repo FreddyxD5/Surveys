@@ -1,3 +1,5 @@
+from core.survey.models import Question, UserChoice
+
 
 class RandomQuestionMixin(object):
     @property
@@ -9,13 +11,13 @@ class RandomQuestionMixin(object):
 
 
     def get_random_question(self):
-        return Question.objects.random_get(self.current_session_key)
+        return Question.active_objects.random_get(self.current_session_key)
         
     def get_current_progress(self):
         question_count = Question.objects.filter(is_active=True).count()
         user_choices = UserChoice.objects.filter(question__is_active=True)
         user_choices_count = user_choices.filter(**self.session_param()).count()
-        return (user_choices_count*100 // question_count) if questions_count  > 0 else 100
+        return (user_choices_count*100 // question_count) if question_count  > 0 else 70
 
     
     def session_param(self):

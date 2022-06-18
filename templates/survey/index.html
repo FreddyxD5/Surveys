@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .figure{left:{{current_progress}};}
+</style>
+{% endblock extra_css%}
+
+
+{% block header %}
+<div class="progress">
+    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="{{current_progress}}" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+{{block.super}}
+{% endblock header %}
+
+
+{% block content %}
+    {% include 'survey/messages.html' %}
+    {% if current_progress == 0 and request.GET.launch == 'true' %}
+        <h2>Welcome! <p>To the survey app 2022</p></h2>        
+        {% include 'svg.html' %}
+        <div style=" width: 33.33%;
+        display: flex;
+        align-items: center;
+        justify-content: center;">
+            <p style="justify-content:center;"><a class="btn btn-primary" href="{% url 'index' %}">Iniciar</a></p>
+        </div>
+
+    {% elif current_progress == 100 %}
+        <h2>Congratulations!</h2>
+        <h2>You finish the Survey.</h2>
+    
+    <div style=" width: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+        <p style="justify-content:center;"><a class="btn btn-primary" href="{% url 'start_again' %}">Launch</a></p>
+    </div>
+    {% else %}        
+        {% for question in questions %}
+            {% include 'survey/question.html' with question=question %}
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

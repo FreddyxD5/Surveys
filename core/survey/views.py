@@ -30,15 +30,15 @@ class HomeView(RandomQuestionMixin, TemplateView):
 
 
 class IndexView(RandomQuestionMixin, TemplateView):
-    template_name = 'surveys/index.html'
+    template_name = 'survey/index.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
+        context = super().get_context_data(**kwargs)        
         question = self.get_random_question()
         if question is not None:
             context.update({'questions':[question]})
         context['current_progress'] = self.get_current_progress()
+        print(context)
         return context
 
 
@@ -70,41 +70,9 @@ class UserChoiceCreateView(RandomQuestionMixin, CreateView):
         return super().form_valid(form)
 
 
-def start_again(request):
-    request.session.flush()
-    messages.success(request, "Hagamolo de nuevo")
-    return redirect('index')
-
-
 class SurveyLisView(LoginRequiredMixin, ListView):
     model = Survey
 
 
 class SurveyDetail(LoginRequiredMixin, DetailView):
     model = Survey
-
-def questions_view(request, slug):
-    interval = request.GET.get('interval','year')
-    labels = []
-    data = []
-    try:
-        obj = Survey.object.get(slug = slug)
-        for question in obj.get_top_questions(interval):
-            labels.append(question.slug)
-            data.append(question.count)
-
-        responsedic = {
-            'data':data,
-            'labels':labels
-        }
-    except Survey.DoesNotExist:
-        pass
-
-    
-    responsedict = {
-        'data':data,
-        'labels':labels
-    }
-
-    return HttpResponse(json.dumps(responsedict))
-

@@ -1,4 +1,14 @@
 {% extends './base.html'%}
-{%block body%}
-<h1>holitas from Home :d</h1>
+{%block content %}
+<div class="center">
+    <h2>Bienvenidos a Survey app</h2>    
+    {% include 'svg.html' %}
+    <div style=" width: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+        <p style="justify-content:center;"><a class="btn btn-primary" href="{% url 'index' %}">Iniciar</a></p>
+    </div>
+    
+</div>
 {% endblock %}

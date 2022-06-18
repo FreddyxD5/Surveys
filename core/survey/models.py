@@ -6,8 +6,8 @@ from core.survey.managers import ActiveManager, QuestionManager
 
 # Create your models here.
 class Survey(models.Model):
-    title=models.CharField(max_length=200, blank=True, null=True)
-    slug = models.SlugField(max_length=20)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    slug = models.SlugField(max_length=20, null=True, blank=True)
     start_date = models.DateField(
         default = datetime.date.today,
         help_text = 'Survey first day'
@@ -71,7 +71,7 @@ class Survey(models.Model):
 class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_text = models.CharField(max_length = 500)
-    slug = models.SlugField(max_length=30)
+    slug = models.SlugField(max_length=30, null=True, blank=True)
     pub_date = models.DateTimeField()
     is_active= models.BooleanField(default=True)
 
@@ -89,7 +89,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete= models.CASCADE)
     choice_text = models.CharField(max_length=300)
-    slug = models.SlugField(max_length=100)
+    slug = models.SlugField(max_length=100, null=True, blank=True)
     votes = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)    
 
