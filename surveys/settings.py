@@ -189,3 +189,5 @@ CELERY_TASK_SERIALIZER = 'json'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+USE_TZ = False

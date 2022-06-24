@@ -23,8 +23,8 @@ class Survey(models.Model):
         return self.slug
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
-        return reverse('survey_detail', kwargs={'pk': self.pk})
+        from django.urls import reverse
+        return reverse('survey_detail', kwargs={'slug': self.slug})
 
     #Reverse query to know how many question's exists.
     @property
@@ -37,14 +37,13 @@ class Survey(models.Model):
 
     @property
     def user_choices_count(self):
-        return self.question_set.filter(user_choice__isnull=False).count()
+        return self.question_set.filter(userchoice__isnull=False).count()
 
     @property
     def top_questions(self):
         #Improve performance with redis cache
-        return sorted(self.question_set.filter(is_active=True)
-                    .annotate(count=models.Count('userchoice')),
-                    key=lambda x: -x.user_choices_count)[:10]
+        return self.question_set.filter(is_active=True).annotate(
+                count=models.Count('userchoice')).order_by('-id')[:10]
     
     def get_interval_date(self, interval):
         if interval == 'day':
@@ -59,12 +58,14 @@ class Survey(models.Model):
             start_date = datetime.date.today() - datetime.timedelta(days=365)
         return start_date
 
-    def get_top_questions(self,interval):
-        start_date = self.get_interval_date(interval)
-        query_params = {'is_active':True, 'userchoice__created_at__gte':start_date}
-        return sorted(self.question_set.filter(**query_params)
-                    .annotate(count=models.Count('userchoice')),
-                    key=lambda x: -x.user_choices_count)[:10]
+    def get_top_questions(self,interval):        
+        start_date = self.get_interval_date(interval)        
+        print(start_date)
+        # query_params = {'is_active':True, 'userchoice__created_at__gte':start_date}
+        query_params = {'is_active':True}
+        return self.question_set.filter(**query_params).annotate(
+                    count=models.Count('userchoice')
+                    ).order_by('-id')[:11]
 
 
 

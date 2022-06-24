@@ -13,6 +13,6 @@ urlpatterns = [
     path('question_view/<int:question_id>/choice', UserChoiceCreateView.as_view(), name='user_choice'),
     path('surveys/', SurveyLisView.as_view(), name='survey_list'),
     path('surveys/detail/<slug:slug>', SurveyDetail.as_view(), name='survey_detail'),
-    path('surveys/<slug:slug>/question.json', questions_view, name='questions_view'),
+    path('surveys/<slug:slug>/questions.json', questions_view, name='questions_view'),
 
 ]

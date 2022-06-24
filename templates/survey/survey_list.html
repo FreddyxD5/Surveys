@@ -1,8 +1,7 @@
 {% extends  'base.html' %}
 
-
 {% block content %}
-<h1>Survey 2022!</h1>
+<h1> Welcome to Survey 2022!</h1>
 {% for survey in object_list %}
 <div class="row">
   <div class="survey-card col-md-4">
@@ -27,5 +26,23 @@
   </div>
 </div>
 {% endfor %}
+{% if object_list.number < object_list.paginator.num_pages %}
+<div class="pagination">
+  <span class=""step-links>
+    {% if object_list.has_previous %}
+    <a href="?page=1">&laquoM first</a>
+    <a href="?page={{object_list.previous_page_number}}">previous</a>
+    {% endif %}
 
+    <span class="current">
+      Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+    </span>
+
+    {% if object_list.has_next %}
+    <a href="?page={{ object_list.next_page_number }}"></a>
+    <a href="?page={{ object_list.paginator.num_pages }}"></a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
 {% endblock %}

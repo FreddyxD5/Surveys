@@ -18,9 +18,9 @@ window.randomScalingFactor = function() {
     'rgb(201, 203, 207)'
   ]
   var surveyColors =  {}
-//   {% for question in  object.question_set.all %}
-//     surveyColors['{{ question.id }}'] =  'red';
-//   {% endfor %}
+  // {% for question in  object.question_set.all %}
+  //   surveyColors['{{ question.id }}'] =  'red';
+  // {% endfor %}
   var config = {
     type: 'bar',
     data: {
@@ -63,6 +63,8 @@ window.randomScalingFactor = function() {
       }
     }
   };
+
+
   window.onload = function() {
     var ctx = document.getElementById('myChart').getContext('2d');
     window.myLine = new Chart(ctx, config);
@@ -70,6 +72,8 @@ window.randomScalingFactor = function() {
     console.log("{{ object.slug }}");
     loadData('{{ object.slug }}', 'year');
   };
+
+
   function toggleDataset(element, survey){
     console.log(survey);
     if (element !== undefined && element.classList.contains('active')) {
@@ -103,6 +107,8 @@ window.randomScalingFactor = function() {
       }]
       window.myLine.update();
   }
+
+
   function updateData(element, interval){
     document.getElementsByClassName("time active")[0].classList.remove("active");
     element.classList.add("active");
@@ -114,13 +120,15 @@ window.randomScalingFactor = function() {
       loadData(datasets[i].label, interval)
     }
   }
-  function loadData(survey, interval){
-      console.log(survey)
+
+
+  function loadData(survey, interval){    
+    console.log(survey)
     interval = interval || document.getElementsByClassName("time active")[0].id;
     var xhr = typeof XMLHttpRequest != 'undefined'
       ? new XMLHttpRequest()
       : new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.open('GET', '/surveys/' + survey + '/questions.json?interval=' + interval);
+    xhr.open('GET', '/surveys/' + survey + '/questions.json?interval='+interval);
     xhr.onload = function() {
         if (xhr.status === 200) {
             surveyInfo = JSON.parse(xhr.responseText);
