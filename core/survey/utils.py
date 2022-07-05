@@ -3,7 +3,7 @@ import datetime
 import redis
 from django.conf import settings
 
-from core.survey.models import Question
+from core.survey.models import Question, Choice
 
 
 SURVEY_DAYS = 15
@@ -20,3 +20,13 @@ def get_redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.RE
         port=port,
         db=db
     )
+
+
+
+
+def create_choices(question_id, items, slug):
+    query = Question.objects.filter(id=int(question_id)).first()
+    for item in items:
+        choice_instance = Choice(question=query,choice_text=item, slug=slug)
+        choice_instance.save()
+    print('-=Opciones para la pregunta creadas correctamente=-')

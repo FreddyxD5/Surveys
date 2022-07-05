@@ -37,8 +37,7 @@ class IndexView(RandomQuestionMixin, TemplateView):
         question = self.get_random_question()
         if question is not None:
             context.update({'questions':[question]})
-        context['current_progress'] = self.get_current_progress()
-        print(context)
+        context['current_progress'] = self.get_current_progress()        
         return context
 
 

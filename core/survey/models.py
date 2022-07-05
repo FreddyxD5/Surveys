@@ -76,6 +76,8 @@ class Question(models.Model):
     pub_date = models.DateTimeField()
     is_active= models.BooleanField(default=True)
 
+    optional_choice = models.BooleanField(default = False)
+
     objects = QuestionManager()
     active_objects = ActiveManager()    
 
@@ -89,15 +91,18 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete= models.CASCADE)
-    choice_text = models.CharField(max_length=300)
+    choice_text = models.CharField(max_length=300, blank=True, null=True)    
     slug = models.SlugField(max_length=100, null=True, blank=True)
     votes = models.IntegerField(default=0)
-    is_active = models.BooleanField(default=True)    
+    is_active = models.BooleanField(default=True)        
 
     active_objects = ActiveManager()
 
     def __str__(self):
         return f"{self.question.slug}: {self.choice_text}"
+
+    def get_choice_text(self):
+        return f"{self.choice_text}"
 
     @property
     def stats_votes(self):
@@ -117,6 +122,9 @@ class UserChoice(models.Model):
     #Careful with Cookie-Based Sessions.
     #Read using cookie-based session warning
     session_key = models.CharField(max_length=32,null=True)
+
+    def __str__(self):
+        return f'{self.user}-{self.question}-{self.choice.get_choice_text()}'
     
 
 
