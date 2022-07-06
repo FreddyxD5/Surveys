@@ -54,6 +54,7 @@ LOCAL_APPS= [
 
 THIRD_APPS= [
     'corsheaders',
+    'import_export',
 ]
 
 INSTALLED_APPS = BASE_APPS + THIRD_APPS + LOCAL_APPS
