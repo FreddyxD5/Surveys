@@ -5,13 +5,16 @@ from core.survey.models import Survey
 
 def start_again(request):
     request.session.flush()
-    messages.success(request, "Hagamolo de nuevo")
+    messages.success(request, "Hagasmolo de nuevo")
     return redirect('index')
 
 
 
 def questions_view(request, slug):        
+    print(request)
     interval = request.GET.get('interval','year')    
+    print('what?')
+    print(interval)
     labels = []
     data = []
     try:

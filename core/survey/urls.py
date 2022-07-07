@@ -15,4 +15,4 @@ urlpatterns = [
     path('surveys/detail/<slug:slug>', SurveyDetail.as_view(), name='survey_detail'),
     path('surveys/<slug:slug>/questions.json', questions_view, name='questions_view'),
 
-]
+] 

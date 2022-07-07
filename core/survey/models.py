@@ -117,8 +117,9 @@ class Choice(models.Model):
 class UserChoice(models.Model):
     user =models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice =models.ForeignKey(Choice, on_delete=models.CASCADE)
+    choice =models.ForeignKey(Choice, on_delete=models.CASCADE, blank=True, null=True)
     created_at =models.DateTimeField(auto_now_add =True, blank=True)
+    optional_choice = models.TextField(null=True, blank=True)
     #Careful with Cookie-Based Sessions.
     #Read using cookie-based session warning
     session_key = models.CharField(max_length=32,null=True)

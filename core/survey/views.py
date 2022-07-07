@@ -33,7 +33,7 @@ class IndexView(RandomQuestionMixin, TemplateView):
     template_name = 'survey/index.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)        
+        context = super().get_context_data(**kwargs)                
         question = self.get_random_question()
         if question is not None:
             context.update({'questions':[question]})
@@ -50,19 +50,31 @@ class UserChoiceCreateView(RandomQuestionMixin, CreateView):
         return reverse('index')
 
     def form_invalid(self, form):
+        print("formulario invalido")
         responsedict = {
             'form':form.errors,
             'status':False
         }
         return HttpResponse(json.dumps(responsedict))
 
-    def form_valid(self, form):
+    def form_valid(self, form):        
+        print('?')
         if self.request.user.is_authenticated:
+            print('Usuario autenticado')
             form.instance.user = self.request.user
-        else:
+            print("se ha añadido al form")            
+        else:            
+            print('Como no hay usuario se añade una session_key')
             form.instance.session_key = self.current_session_key
-        
         form.save()
+        print("formulario instnacia")
+        print(form.instance)
+        print(form.instance.choice_id)
+        print(form.instance.question)
+        print(form.instance.question_id)
+        print(form.instance.session_key)
+        print(form.instance.optional_choice)
+        print('End')
         increment_vote.delay(form.instance.choice_id)
         increment_counter.delay(form.instance.choice_id)
         messages.success(self.request, 'Your choice was save successfully.')

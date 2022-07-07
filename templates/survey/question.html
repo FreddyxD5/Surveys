@@ -5,7 +5,7 @@
         {{ question.id }} → {{ question.question_text }}
       </div>
       <ul class="list-group list-group-flush">
-      {% for choice in question.choice_set.all %}
+      {% for choice in question.choice_set.all %}        
         <li class="list-group-item custom-control custom-radio">
              <input type="hidden" name="question" value="{{question.id}}">
              <input type="radio" name="choice" value="{{choice.id}}" id="{{choice.id}}" class="form-control custom-control-input" required autofocus>
@@ -14,6 +14,12 @@
             </label>
         </li>
         {% endfor %}
+        {% if question.optional_choice %}
+        <li class="list-group-item">
+          <h3>Other:</h3>
+          <input type="text" name="optional_choice" value="" placeholder="Optional asnwer">
+        </li>
+        {% endif %}
       </ul>
       <div class="card-footer">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
